@@ -78,6 +78,16 @@ class PropertyCleanupMutator : ILayoutMutator
             }
         }
 
+        if (
+            (type == "FileUpload" || type == "FileUploadWithTag")
+            && component.TryGetPropertyValue("dataModelBindings", out var fileDmb)
+            && fileDmb is JsonObject fileDmbObject
+            && fileDmbObject.Count == 0
+        )
+        {
+            component.Remove("dataModelBindings");
+        }
+
         if (type == "Paragraph" && component.ContainsKey("size"))
         {
           component.Remove("size");
