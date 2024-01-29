@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace altinn_app_cli.v7Tov8.DockerfileRewriters.Extensions;
+namespace Altinn.Studio.Cli.v7Tov8.DockerfileRewriters.Extensions;
 
 /// <summary>
 /// Extensions for string replacing tags in dockerfiles

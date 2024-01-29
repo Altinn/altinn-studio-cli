@@ -1,8 +1,7 @@
-
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace altinn_app_cli.v7Tov8.AppSettingsRewriter;
+namespace Altinn.Studio.Cli.v7Tov8.AppSettingsRewriter;
 
 
 /// <summary>

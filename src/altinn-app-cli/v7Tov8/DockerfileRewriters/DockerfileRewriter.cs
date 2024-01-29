@@ -1,7 +1,6 @@
-using System.Text.RegularExpressions;
-using altinn_app_cli.v7Tov8.DockerfileRewriters.Extensions;
+using Altinn.Studio.Cli.v7Tov8.DockerfileRewriters.Extensions;
 
-namespace altinn_app_cli.v7Tov8.DockerfileRewriters;
+namespace Altinn.Studio.Cli.v7Tov8.DockerfileRewriters;
 
 /// <summary>
 /// Rewrites the dockerfile

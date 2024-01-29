@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace altinn_app_cli.v7Tov8.CodeRewriters;
+namespace Altinn.Studio.Cli.v7Tov8.CodeRewriters;
 
 public class TypesRewriter: CSharpSyntaxRewriter
 {

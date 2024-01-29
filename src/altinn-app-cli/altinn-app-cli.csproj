@@ -3,16 +3,13 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>altinn_app_cli</RootNamespace>
+    <RootNamespace>Altinn.Studio.Cli</RootNamespace>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
-    <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
-    <AssemblyName>altinn-app-cli</AssemblyName>
-    <PublishSingleFile>true</PublishSingleFile>
-    <PublishTrimmed>false</PublishTrimmed>
-    <PublishReadyToRun>true</PublishReadyToRun>
+    <AssemblyName>Altinn.Studio.Cli</AssemblyName>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>altinn-studio-cli</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,4 +36,11 @@
       <Version>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</Version>
     </PropertyGroup>
   </Target>
+  <ItemGroup Condition="'$(Deterministic)'=='true'">
+    <SourceRoot Include="$(MSBuildThisFileDirectory)/" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Deterministic)'=='true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
 </Project>

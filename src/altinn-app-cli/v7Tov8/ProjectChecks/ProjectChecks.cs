@@ -1,6 +1,6 @@
 using System.Xml.Linq;
 
-namespace altinn_app_cli.v7Tov8.ProjectChecks;
+namespace Altinn.Studio.Cli.v7Tov8.ProjectChecks;
 
 public class ProjectChecks
 {

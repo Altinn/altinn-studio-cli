@@ -1,17 +1,17 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Reflection;
-using altinn_app_cli.v7Tov8.AppSettingsRewriter;
-using altinn_app_cli.v7Tov8.CodeRewriters;
-using altinn_app_cli.v7Tov8.DockerfileRewriters;
-using altinn_app_cli.v7Tov8.ProcessRewriter;
-using altinn_app_cli.v7Tov8.ProjectChecks;
-using altinn_app_cli.v7Tov8.ProjectRewriters;
+using Altinn.Studio.Cli.v7Tov8.AppSettingsRewriter;
+using Altinn.Studio.Cli.v7Tov8.CodeRewriters;
+using Altinn.Studio.Cli.v7Tov8.DockerfileRewriters;
+using Altinn.Studio.Cli.v7Tov8.ProcessRewriter;
+using Altinn.Studio.Cli.v7Tov8.ProjectChecks;
+using Altinn.Studio.Cli.v7Tov8.ProjectRewriters;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 
-namespace altinn_app_upgrade_cli;
+namespace Altinn.Studio.Cli;
 
 class Program
 {
