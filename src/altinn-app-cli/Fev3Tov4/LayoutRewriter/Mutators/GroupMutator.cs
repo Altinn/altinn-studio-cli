@@ -23,10 +23,23 @@ class GroupMutator : ILayoutMutator
             return new ErrorResult() { Message = "Unable to parse component type" };
         }
 
-        // Convert group + likert to new likert component
-        if (type == "Group" && !component.ContainsKey("maxCount"))
+        if (
+            type == "Group"
+            && (
+                !component.ContainsKey("maxCount")
+                || component.TryGetPropertyValue("maxCount", out var maxCountNode)
+                    && maxCountNode is JsonValue maxCountValue
+                    && maxCountValue.GetValueKind() == JsonValueKind.Number
+                    && maxCountValue.GetValue<decimal>() <= 1
+            )
+        )
         {
-            if (component.TryGetPropertyValue("panel", out var panelNode)) {
+            if (component.ContainsKey("maxCount"))
+            {
+                component.Remove("maxCount");
+            }
+            if (component.TryGetPropertyValue("panel", out var panelNode))
+            {
                 // if panel has reference, delete the entire component and log warning
                 if (panelNode is JsonObject panelObject && panelObject.ContainsKey("groupReference")) {
                     return new DeleteResult() { Warnings = new List<string>() {"Group with panel and groupReference is not supported in v4, deleting component"} };

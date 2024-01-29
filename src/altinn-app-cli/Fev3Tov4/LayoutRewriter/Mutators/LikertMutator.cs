@@ -29,7 +29,6 @@ class LikertMutator : ILayoutMutator
             return new DeleteResult();
         }
 
-        // Convert group + likert to new likert component
         if (
             type == "Group"
             // Check for maxCount > 1

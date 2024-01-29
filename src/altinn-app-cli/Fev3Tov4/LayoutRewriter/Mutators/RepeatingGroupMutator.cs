@@ -25,7 +25,6 @@ class RepeatingGroupMutator : ILayoutMutator
             return new ErrorResult() { Message = "Unable to parse component type" };
         }
 
-        // Convert group + likert to new likert component
         if (
             type == "Group"
             // Check for maxCount > 1

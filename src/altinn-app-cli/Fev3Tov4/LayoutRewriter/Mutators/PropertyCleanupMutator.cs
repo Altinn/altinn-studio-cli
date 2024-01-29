@@ -25,48 +25,74 @@ class PropertyCleanupMutator : ILayoutMutator
 
         var formComponentTypes = new List<string>() {"AddressComponent", "CheckBoxes", "Custom", "Datepicker", "Dropdown", "FileUpload", "FileUploadWithTag", "Grid", "Input", "Likert", "List", "Map", "MultipleSelect", "RadioButtons", "TextArea"};
 
-        bool changed = false;
-
         if (component.ContainsKey("componentType"))
         {
             component.Remove("componentType");
-            changed = true;
+        }
+
+        if (component.ContainsKey("triggers"))
+        {
+            component.Remove("triggers");
         }
 
         if (component.ContainsKey("textResourceId"))
         {
             component.Remove("textResourceId");
-            changed = true;
         }
 
         if (component.ContainsKey("customType"))
         {
             component.Remove("customType");
-            changed = true;
         }
 
         if (component.ContainsKey("description"))
         {
             component.Remove("description");
-            changed = true;
         }
 
-        if (type == "Summary" && component.ContainsKey("pageRef"))
+        if (component.ContainsKey("pageRef"))
         {
             component.Remove("pageRef");
-            changed = true;
         }
 
-        if (!formComponentTypes.Contains(type) && component.ContainsKey("dataModelBindings"))
+        // All non-form components
+        if (!formComponentTypes.Contains(type))
         {
-            component.Remove("dataModelBindings");
-            changed = true;
+
+            if (component.ContainsKey("required"))
+            {
+                component.Remove("required");
+            }
+
+            if (component.ContainsKey("readOnly"))
+            {
+                component.Remove("readOnly");
+            }
         }
 
-        if (changed)
+        if (type != "RepeatingGroup" && !formComponentTypes.Contains(type))
         {
-            return new ReplaceResult() { Component = component };
+            if (component.ContainsKey("dataModelBindings"))
+            {
+                component.Remove("dataModelBindings");
+            }
         }
-        return new SkipResult();
+
+        if (type == "Paragraph" && component.ContainsKey("size"))
+        {
+          component.Remove("size");
+        }
+
+        if (type == "Panel" && component.ContainsKey("size"))
+        {
+          component.Remove("size");
+        }
+
+        if (type == "NavigationBar" && component.ContainsKey("textResourceBindings"))
+        {
+          component.Remove("textResourceBindings");
+        }
+
+        return new ReplaceResult() { Component = component };
     }
 }
