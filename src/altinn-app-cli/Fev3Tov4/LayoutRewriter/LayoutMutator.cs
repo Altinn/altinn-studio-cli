@@ -69,9 +69,7 @@ class LayoutMutator
             catch (Exception e)
             {
                 // Duplicate keys in the object will throw an exception here
-                warnings.Add(
-                    $"Unable to parse layout array in {compactFilePath}, error: {e.Message}"
-                );
+                warnings.Add($"Unable to parse layout array in {compactFilePath}, error: {e.Message}");
                 continue;
             }
 

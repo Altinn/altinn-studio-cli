@@ -6,6 +6,7 @@ using altinn_app_cli.fev3tov4.LayoutRewriter;
 using altinn_app_cli.fev3tov4.SchemaRefRewriter;
 using altinn_app_cli.fev3tov4.FooterRewriter;
 using altinn_app_cli.fev3tov4.Checks;
+using altinn_app_cli.fev3tov4.SettingsWriter;
 
 namespace altinn_app_cli.fev3tov4.FrontendUpgrade;
 
@@ -37,6 +38,7 @@ class FrontendUpgrade
         var layoutSetNameOption = new Option<string>(name: "--layout-set-name", description: "The name of the layout set to be created", getDefaultValue: () => "form");
         var applicationMetadataFileOption = new Option<string>(name: "--application-metadata", description: "The path of the applicationmetadata.json file relative to --folder", getDefaultValue: () => "App/config/applicationmetadata.json");
         var skipLayoutSetUpgradeOption = new Option<bool>(name: "--skip-layout-set-upgrade", description: "Skip layout set upgrade", getDefaultValue: () => false);
+        var skipSettingsUpgradeOption = new Option<bool>(name: "--skip-settings-upgrade", description: "Skip layout settings upgrade", getDefaultValue: () => false);
         var skipLayoutUpgradeOption = new Option<bool>(name: "--skip-layout-upgrade", description: "Skip layout files upgrade", getDefaultValue: () => false);
         var preserveDefaultTriggersOption = new Option<bool>(name: "--preserve-default-triggers", description: "Preserve default schema and component validation triggers", getDefaultValue: () => false);
         var convertGroupTitlesOption = new Option<bool>(name: "--convert-group-titles", description: "Convert 'title' in repeating groups to 'summaryTitle'", getDefaultValue: () => false);
@@ -55,6 +57,7 @@ class FrontendUpgrade
             layoutSetNameOption,
             applicationMetadataFileOption,
             skipLayoutSetUpgradeOption,
+            skipSettingsUpgradeOption,
             skipLayoutUpgradeOption,
             preserveDefaultTriggersOption,
             convertGroupTitlesOption,
@@ -71,6 +74,7 @@ class FrontendUpgrade
                 // Get simple options
                 var skipIndexFileUpgrade = context.ParseResult.GetValueForOption(skipIndexFileUpgradeOption)!;
                 var skipLayoutSetUpgrade = context.ParseResult.GetValueForOption(skipLayoutSetUpgradeOption)!;
+                var skipSettingsUpgrade = context.ParseResult.GetValueForOption(skipSettingsUpgradeOption)!;
                 var skipLayoutUpgrade = context.ParseResult.GetValueForOption(skipLayoutUpgradeOption)!;
                 var skipSchemaRefUpgrade = context.ParseResult.GetValueForOption(skipSchemaRefUpgradeOption)!;
                 var skipFooterUpgrade = context.ParseResult.GetValueForOption(skipFooterUpgradeOption)!;
@@ -118,6 +122,12 @@ class FrontendUpgrade
                 {
 
                     returnCode = await LayoutSetUpgrade(uiFolder, layoutSetName, applicationMetadataFile);
+                }
+
+                if (!skipSettingsUpgrade && returnCode == 0)
+                {
+
+                    returnCode = await CreateMissingSettings(uiFolder);
                 }
 
                 if (!skipLayoutUpgrade && returnCode == 0)
@@ -186,12 +196,6 @@ class FrontendUpgrade
             return 1;
         }
 
-        if(!Directory.Exists(Path.Combine(uiFolder, "layouts")) && !File.Exists(Path.Combine(uiFolder, "FormLayout.json")))
-        {
-            PrintError($"No layout files found in {uiFolder}, skipping layout sets upgrade.");
-            return 1;
-        }
-
         if (!File.Exists(applicationMetadataFile))
         {
             PrintError($"Application metadata file {applicationMetadataFile} does not exist. Please supply location of project with --application-metadata [path/to/applicationmetadata.json]");
@@ -211,6 +215,32 @@ class FrontendUpgrade
         return 0;
     }
 
+    private static async Task<int> CreateMissingSettings(string uiFolder) {
+        if (!Directory.Exists(uiFolder))
+        {
+            PrintError($"Ui folder {uiFolder} does not exist. Please supply location of project with --ui-folder [path/to/ui/]");
+            return 1;
+        }
+
+        if (!File.Exists(Path.Combine(uiFolder, "layout-sets.json")))
+        {
+            PrintError("Converting to layout sets is required before upgrading settings.");
+            return 1;
+        }
+
+        var rewriter = new SettingsCreator(uiFolder);
+        rewriter.Upgrade();
+        await rewriter.Write();
+
+        var warnings = rewriter.GetWarnings();
+        foreach (var warning in warnings)
+        {
+            PrintWarning(warning);
+        }
+        Console.WriteLine(warnings.Any() ? "Layout settings upgraded with warnings. Review the warnings above." : "Layout settings upgraded");
+        return 0;
+    }
+
     private static async Task<int> LayoutUpgrade(string uiFolder, bool preserveDefaultTriggers, bool convertGroupTitles)
     {
         if (!Directory.Exists(uiFolder))
@@ -221,7 +251,7 @@ class FrontendUpgrade
 
         if (!File.Exists(Path.Combine(uiFolder, "layout-sets.json")))
         {
-            PrintError("Converting to layout sets is required before upgrading layouts. Skipping layout upgrade.");
+            PrintError("Converting to layout sets is required before upgrading layouts.");
             return 1;
         }
 
@@ -277,7 +307,7 @@ class FrontendUpgrade
 
         if (!File.Exists(Path.Combine(uiFolder, "layout-sets.json")))
         {
-            PrintError("Converting to layout sets is required before upgrading schema refereces. Skipping schema reference upgrade.");
+            PrintError("Converting to layout sets is required before upgrading schema refereces.");
             return 1;
         }
 
