@@ -5,7 +5,7 @@ namespace altinn_app_cli.fev3tov4.LayoutRewriter;
 
 /// <summary>
 /// Upgrades trigger property
-/// Should be run after group component mutations
+/// Should be run after group component and address mutations
 /// </summary>
 class TriggerMutator : ILayoutMutator
 {
@@ -31,6 +31,7 @@ class TriggerMutator : ILayoutMutator
         }
 
         // TODO: Do we need to add standard validations to all components? Like options based components?
+        // TODO: Change AddressComponent to Address
         var formComponentTypes = new List<string>() {"AddressComponent", "CheckBoxes", "Custom", "Datepicker", "Dropdown", "FileUpload", "FileUploadWithTag", "Grid", "Input", "Likert", "List", "Map", "MultipleSelect", "RadioButtons", "TextArea"};
 
         if (formComponentTypes.Contains(type))
