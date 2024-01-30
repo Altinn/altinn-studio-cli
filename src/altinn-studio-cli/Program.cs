@@ -45,7 +45,7 @@ class Program
             skipAppSettingsUpgradeOption,
         };
         rootCommand.AddCommand(upgradeCommand);
-        var versionCommand = new Command("version", "Print version of altinn-app-cli");
+        var versionCommand = new Command("version", "Print version of altinn-studio cli");
         rootCommand.AddCommand(versionCommand);
 
         upgradeCommand.SetHandler(
@@ -143,7 +143,7 @@ class Program
         versionCommand.SetHandler(() =>
         {
             var version = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "Unknown";
-            Console.WriteLine($"altinn-app-cli v{version}");
+            Console.WriteLine($"altinn-studio cli v{version}");
         });
         await rootCommand.InvokeAsync(args);
         return returnCode;

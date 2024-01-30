@@ -9,7 +9,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>Altinn.Studio.Cli</AssemblyName>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>altinn-studio-cli</ToolCommandName>
+    <ToolCommandName>altinn-studio</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +26,7 @@
   <PropertyGroup>
     <RepoRoot>$([System.IO.Directory]::GetParent($(MSBuildThisFileDirectory)).Parent.FullName)</RepoRoot>
     <MinVerDefaultPreReleaseIdentifiers>preview.0</MinVerDefaultPreReleaseIdentifiers>
-    <MinVerTagPrefix>altinn-app-cli</MinVerTagPrefix>
+    <MinVerTagPrefix>v</MinVerTagPrefix>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>12.0</LangVersion>
   </PropertyGroup>
