@@ -2,7 +2,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace altinn_app_cli.fev3tov4.LayoutRewriter;
+namespace Altinn.Studio.Cli.Fev3Tov4.LayoutRewriter;
 
 /// <summary>
 /// Reads all layout files and applies a set of mutators to them before writing them back

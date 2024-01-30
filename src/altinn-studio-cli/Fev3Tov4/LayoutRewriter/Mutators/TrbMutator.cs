@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace altinn_app_cli.fev3tov4.LayoutRewriter;
+namespace Altinn.Studio.Cli.Fev3Tov4.LayoutRewriter.Mutators;
 
 /// <summary>
 /// Upgrades title/description text resource bindings for Groups and Repeating groups

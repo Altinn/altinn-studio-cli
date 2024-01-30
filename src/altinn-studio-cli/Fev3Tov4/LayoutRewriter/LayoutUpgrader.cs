@@ -1,4 +1,6 @@
-namespace altinn_app_cli.fev3tov4.LayoutRewriter;
+using Altinn.Studio.Cli.Fev3Tov4.LayoutRewriter.Mutators;
+
+namespace Altinn.Studio.Cli.Fev3Tov4.LayoutRewriter;
 
 class LayoutUpgrader
 {

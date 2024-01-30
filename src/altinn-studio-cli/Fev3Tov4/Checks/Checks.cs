@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace altinn_app_cli.fev3tov4.Checks;
+namespace Altinn.Studio.Cli.Fev3Tov4.Checks;
 
 /// <summary>
 /// Checks for known issues in the app

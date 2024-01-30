@@ -1,14 +1,14 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using altinn_app_cli.fev3tov4.LayoutSetRewriter;
-using altinn_app_cli.fev3tov4.IndexFileRewriter;
-using altinn_app_cli.fev3tov4.LayoutRewriter;
-using altinn_app_cli.fev3tov4.SchemaRefRewriter;
-using altinn_app_cli.fev3tov4.FooterRewriter;
-using altinn_app_cli.fev3tov4.Checks;
-using altinn_app_cli.fev3tov4.SettingsWriter;
+using Altinn.Studio.Cli.Fev3Tov4.Checks;
+using Altinn.Studio.Cli.Fev3Tov4.FooterRewriter;
+using Altinn.Studio.Cli.Fev3Tov4.IndexFileRewriter;
+using Altinn.Studio.Cli.Fev3Tov4.LayoutRewriter;
+using Altinn.Studio.Cli.Fev3Tov4.LayoutSetRewriter;
+using Altinn.Studio.Cli.Fev3Tov4.SchemaRefRewriter;
+using Altinn.Studio.Cli.Fev3Tov4.SettingsWriter;
 
-namespace altinn_app_cli.fev3tov4.FrontendUpgrade;
+namespace Altinn.Studio.Cli.Fev3Tov4.FrontendUpgrade;
 
 class FrontendUpgrade
 {

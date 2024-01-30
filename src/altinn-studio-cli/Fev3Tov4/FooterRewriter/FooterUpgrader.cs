@@ -2,7 +2,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace altinn_app_cli.fev3tov4.FooterRewriter;
+namespace Altinn.Studio.Cli.Fev3Tov4.FooterRewriter;
 
 /// <summary>
 /// Fixes footer accessibility link if present, if not adds a default footer

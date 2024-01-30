@@ -1,7 +1,7 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Reflection;
-using Altinn.Studio.Cli.fev3tov4.FrontendUpgrade;
+using Altinn.Studio.Cli.Fev3Tov4.FrontendUpgrade;
 using Altinn.Studio.Cli.v7Tov8.AppSettingsRewriter;
 using Altinn.Studio.Cli.v7Tov8.CodeRewriters;
 using Altinn.Studio.Cli.v7Tov8.DockerfileRewriters;

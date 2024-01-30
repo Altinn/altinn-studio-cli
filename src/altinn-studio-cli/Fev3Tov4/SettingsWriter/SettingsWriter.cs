@@ -2,7 +2,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace altinn_app_cli.fev3tov4.SettingsWriter;
+namespace Altinn.Studio.Cli.Fev3Tov4.SettingsWriter;
 
 /// <summary>
 /// Creates basic Settings.json file for all layout sets that are missing one

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace altinn_app_cli.fev3tov4.IndexFileRewriter;
+namespace Altinn.Studio.Cli.Fev3Tov4.IndexFileRewriter;
 
 class IndexFileUpgrader
 {
