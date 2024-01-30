@@ -12,3 +12,9 @@ pack: build
 clean:
 	dotnet clean
 	rm -rf publish/
+
+install-locally: pack
+	dotnet tool install --global --add-source ./publish Altinn.Studio.Cli --prerelease
+	
+uninstall-locally:
+	dotnet tool uninstall --global Altinn.Studio.Cli

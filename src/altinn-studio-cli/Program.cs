@@ -16,6 +16,7 @@ namespace Altinn.Studio.Cli;
 
 class Program
 {
+    private const string ROOT_COMMAND_NAME = "altinn-studio";
     static async Task<int> Main(string[] args)
     {
         int returnCode = 0;
@@ -31,6 +32,7 @@ class Program
         var skipProcessUpgradeOption = new Option<bool>(name: "--skip-process-upgrade", description: "Skip process file upgrade", getDefaultValue: () => false);
         var skipAppSettingsUpgradeOption = new Option<bool>(name: "--skip-appsettings-upgrade", description: "Skip appsettings file upgrade", getDefaultValue: () => false);
         var rootCommand = new RootCommand("Command line interface for working with Altinn 3 Applications");
+        rootCommand.Name = ROOT_COMMAND_NAME;
         rootCommand.AddCommand(FrontendUpgrade.GetUpgradeCommand());
         var upgradeCommand = new Command("upgrade", "Upgrade an app from v7 to v8")
         {
@@ -47,7 +49,7 @@ class Program
             skipAppSettingsUpgradeOption,
         };
         rootCommand.AddCommand(upgradeCommand);
-        var versionCommand = new Command("version", "Print version of altinn-studio cli");
+        var versionCommand = new Command("version", $"Print version of {ROOT_COMMAND_NAME} cli");
         rootCommand.AddCommand(versionCommand);
 
         upgradeCommand.SetHandler(
@@ -145,7 +147,7 @@ class Program
         versionCommand.SetHandler(() =>
         {
             var version = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "Unknown";
-            Console.WriteLine($"altinn-studio cli v{version}");
+            Console.WriteLine($"{ROOT_COMMAND_NAME} cli v{version}");
         });
         await rootCommand.InvokeAsync(args);
         return returnCode;
