@@ -69,7 +69,7 @@ public class BackendUpgrade
                 if (File.Exists(projectFolder))
                 {
                     Console.WriteLine($"Project folder {projectFolder} does not exist. Please supply location of project with --folder [path/to/project]");
-                    returnCode = 1;
+                    Environment.Exit(1);
                     return;
                 }
 
@@ -77,7 +77,7 @@ public class BackendUpgrade
                 if ((attr & FileAttributes.Directory) != FileAttributes.Directory)
                 {
                     Console.WriteLine($"Project folder {projectFolder} is a file. Please supply location of project with --folder [path/to/project]");
-                    returnCode = 1;
+                    Environment.Exit(1);
                     return;
                 }
 
@@ -98,7 +98,7 @@ public class BackendUpgrade
                 if (!projectChecks.SupportedSourceVersion())
                 {
                     Console.WriteLine($"Version(s) in project file {projectFile} is not supported. Please upgrade to version 7.0.0 or higher.");
-                    returnCode = 2;
+                    Environment.Exit(2);
                     return;
                 }
 
@@ -135,6 +135,7 @@ public class BackendUpgrade
                 {
                     Console.WriteLine("Upgrade completed with errors. Please check for errors in the log above.");
                 }
+                Environment.Exit(returnCode);
             }
         );
         
