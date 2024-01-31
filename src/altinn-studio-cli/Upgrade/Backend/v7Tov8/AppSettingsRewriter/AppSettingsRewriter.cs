@@ -3,7 +3,6 @@ using System.Text.Json.Nodes;
 
 namespace Altinn.Studio.Cli.Upgrade.Backend.v7Tov8.AppSettingsRewriter;
 
-
 /// <summary>
 /// Rewrites the appsettings.*.json files
 /// </summary>
@@ -17,8 +16,9 @@ public class AppSettingsRewriter
     private Dictionary<string, JsonObject> appSettingsJsonCollection;
 
     private readonly IList<string> warnings = new List<string>();
-    
-    private readonly JsonDocumentOptions jsonDocumentOptions = new JsonDocumentOptions() { CommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true };
+
+    private readonly JsonDocumentOptions jsonDocumentOptions = new JsonDocumentOptions()
+        { CommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AppSettingsRewriter"/> class.
@@ -89,36 +89,48 @@ public class AppSettingsRewriter
         }
 
         // Look for "RemoveHiddenDataPreview" property
-        appSettingsObject.TryGetPropertyValue("RemoveHiddenDataPreview", out var removeHiddenDataPreviewNode);
-        if (removeHiddenDataPreviewNode is not JsonValue removeHiddenDataPreviewValue)
+        try
         {
-            // No "RemoveHiddenDataPreview" property found, nothing to change
-            return;
-        }
+            appSettingsObject.TryGetPropertyValue("RemoveHiddenDataPreview", out var removeHiddenDataPreviewNode);
 
-        // Get value of "RemoveHiddenDataPreview" property
-        if (!removeHiddenDataPreviewValue.TryGetValue<bool>(out var removeHiddenDataValue))
-        {
-            warnings.Add($"RemoveHiddenDataPreview has unexpected value {removeHiddenDataPreviewValue.ToJsonString()} in {fileName}, expected a boolean");
-            return;
-        }
-        appSettingsObject.Remove("RemoveHiddenDataPreview");
-        if (appSettingsObject.ContainsKey("RemoveHiddenData"))
-        {
-            warnings.Add($"RemoveHiddenData already exists in AppSettings, skipping. Tool would have set the value to: {removeHiddenDataValue} in {fileName}");
-        }
-        else
-        {
-            appSettingsObject.Add("RemoveHiddenData", removeHiddenDataValue);
-        }
+            if (removeHiddenDataPreviewNode is not JsonValue removeHiddenDataPreviewValue)
+            {
+                // No "RemoveHiddenDataPreview" property found, nothing to change
+                return;
+            }
 
-        if (appSettingsObject.ContainsKey("RequiredValidation"))
-        {
-            warnings.Add($"RequiredValidation already exists in AppSettings, skipping. Tool would have set the value to: {removeHiddenDataValue} in {fileName}");
+            // Get value of "RemoveHiddenDataPreview" property
+            if (!removeHiddenDataPreviewValue.TryGetValue<bool>(out var removeHiddenDataValue))
+            {
+                warnings.Add(
+                    $"RemoveHiddenDataPreview has unexpected value {removeHiddenDataPreviewValue.ToJsonString()} in {fileName}, expected a boolean");
+                return;
+            }
+
+            appSettingsObject.Remove("RemoveHiddenDataPreview");
+            if (appSettingsObject.ContainsKey("RemoveHiddenData"))
+            {
+                warnings.Add(
+                    $"RemoveHiddenData already exists in AppSettings, skipping. Tool would have set the value to: {removeHiddenDataValue} in {fileName}");
+            }
+            else
+            {
+                appSettingsObject.Add("RemoveHiddenData", removeHiddenDataValue);
+            }
+
+            if (appSettingsObject.ContainsKey("RequiredValidation"))
+            {
+                warnings.Add(
+                    $"RequiredValidation already exists in AppSettings, skipping. Tool would have set the value to: {removeHiddenDataValue} in {fileName}");
+            }
+            else
+            {
+                appSettingsObject.Add("RequiredValidation", removeHiddenDataValue);
+            }
         }
-        else
+        catch (Exception e)
         {
-            appSettingsObject.Add("RequiredValidation", removeHiddenDataValue);
+            warnings.Add($"Unable to parse appsettings file {fileName}, error: {e.Message}. Skipping upgrade of RemoveHiddenDataPreview for this file");
         }
     }
 }
