@@ -17,6 +17,8 @@ public class AppSettingsRewriter
     private Dictionary<string, JsonObject> appSettingsJsonCollection;
 
     private readonly IList<string> warnings = new List<string>();
+    
+    private readonly JsonDocumentOptions jsonDocumentOptions = new JsonDocumentOptions() { CommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AppSettingsRewriter"/> class.
@@ -27,7 +29,7 @@ public class AppSettingsRewriter
         foreach (var file in Directory.GetFiles(appSettingsFolder, AppSettingsFilePattern))
         {
             var json = File.ReadAllText(file);
-            var appSettingsJson = JsonNode.Parse(json);
+            var appSettingsJson = JsonNode.Parse(json, null, jsonDocumentOptions);
             if (appSettingsJson is not JsonObject appSettingsJsonObject)
             {
                 warnings.Add($"Unable to parse AppSettings file {file} as a json object, skipping");
@@ -100,10 +102,23 @@ public class AppSettingsRewriter
             warnings.Add($"RemoveHiddenDataPreview has unexpected value {removeHiddenDataPreviewValue.ToJsonString()} in {fileName}, expected a boolean");
             return;
         }
-
         appSettingsObject.Remove("RemoveHiddenDataPreview");
-        appSettingsObject.Add("RemoveHiddenData", removeHiddenDataValue);
-        appSettingsObject.Add("RequiredValidation", removeHiddenDataValue);
+        if (appSettingsObject.ContainsKey("RemoveHiddenData"))
+        {
+            warnings.Add($"RemoveHiddenData already exists in AppSettings, skipping. Tool would have set the value to: {removeHiddenDataValue} in {fileName}");
+        }
+        else
+        {
+            appSettingsObject.Add("RemoveHiddenData", removeHiddenDataValue);
+        }
 
+        if (appSettingsObject.ContainsKey("RequiredValidation"))
+        {
+            warnings.Add($"RequiredValidation already exists in AppSettings, skipping. Tool would have set the value to: {removeHiddenDataValue} in {fileName}");
+        }
+        else
+        {
+            appSettingsObject.Add("RequiredValidation", removeHiddenDataValue);
+        }
     }
 }
