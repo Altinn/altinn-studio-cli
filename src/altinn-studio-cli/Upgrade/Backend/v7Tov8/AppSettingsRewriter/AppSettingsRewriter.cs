@@ -80,17 +80,17 @@ public class AppSettingsRewriter
 
     private void RewriteRemoveHiddenDataSetting(string fileName, JsonObject settings)
     {
-        // Look for "AppSettings" object
-        settings.TryGetPropertyValue("AppSettings", out var appSettingsNode);
-        if (appSettingsNode is not JsonObject appSettingsObject)
-        {
-            // No "AppSettings" object found, nothing to change
-            return;
-        }
-
-        // Look for "RemoveHiddenDataPreview" property
         try
         {
+            // Look for "AppSettings" object
+            settings.TryGetPropertyValue("AppSettings", out var appSettingsNode);
+            if (appSettingsNode is not JsonObject appSettingsObject)
+            {
+                // No "AppSettings" object found, nothing to change
+                return;
+            }
+
+            // Look for "RemoveHiddenDataPreview" property
             appSettingsObject.TryGetPropertyValue("RemoveHiddenDataPreview", out var removeHiddenDataPreviewNode);
 
             if (removeHiddenDataPreviewNode is not JsonValue removeHiddenDataPreviewValue)
@@ -130,7 +130,8 @@ public class AppSettingsRewriter
         }
         catch (Exception e)
         {
-            warnings.Add($"Unable to parse appsettings file {fileName}, error: {e.Message}. Skipping upgrade of RemoveHiddenDataPreview for this file");
+            warnings.Add(
+                $"Unable to parse appsettings file {fileName}, error: {e.Message}. Skipping upgrade of RemoveHiddenDataPreview for this file");
         }
     }
 }
