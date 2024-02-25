@@ -31,7 +31,7 @@ public class ModelRewriter : CSharpSyntaxRewriter
             var altinnRowIdSpecified = SyntaxFactory.ParseMemberDeclaration("""
                 public bool AltinnRowIdSpecified()
                 {
-                    return AltinnRowId == default;
+                    return AltinnRowId != default;
                 }
             """)!.WithTrailingTrivia(SyntaxFactory.LineFeed, SyntaxFactory.LineFeed);
 
