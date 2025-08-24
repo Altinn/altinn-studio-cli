@@ -1,28 +1,8 @@
-using System.CommandLine;
-using Altinn.Studio.Cli.Upgrade.Backend.v7Tov8.BackendUpgrade;
-using Altinn.Studio.Cli.Upgrade.Frontend.Fev3Tov4.FrontendUpgrade;
+using Altinn.Studio.Cli.Shared;
 
 namespace Altinn.Studio.Cli.Upgrade;
 
 /// <summary>
-/// Contains the upgrade command
+/// Base settings for upgrade commands
 /// </summary>
-public static class UpgradeCommand
-{
-    /// <summary>
-    /// Gets the upgrade command
-    /// </summary>
-    /// <returns></returns>
-    public static Command GetUpgradeCommand()
-    {
-        var projectFolderOption = new Option<string>(
-            name: "--folder",
-            description: "The project folder to read",
-            getDefaultValue: () => "CurrentDirectory"
-        );
-        var upgradeCommand = new Command("upgrade", "Upgrade an app") { projectFolderOption };
-        upgradeCommand.AddCommand(FrontendUpgrade.GetUpgradeCommand(projectFolderOption));
-        upgradeCommand.AddCommand(BackendUpgrade.GetUpgradeCommand(projectFolderOption));
-        return upgradeCommand;
-    }
-}
+public abstract class UpgradeSettings : BaseSettings { }
