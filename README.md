@@ -1,5 +1,8 @@
 # altinn-studio-cli
 
+> [!IMPORTANT]  
+> This repository has been archived, development has been moved to [altinn-studio](https://github.com/Altinn/altinn-studio)
+
 Command line tool for app development
 
 ## Requirements
